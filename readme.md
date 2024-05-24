@@ -41,14 +41,14 @@ console.log(inlineIifeSnippet)
 Assuming you're starting with a Vite project of some flavor:
 
 ```sh
-npm install --save-dev @kitschpatrol/vite-plugin-iife
+npm install --save-dev vite-plugin-iife
 ```
 
 ### 2. Add the plugin to your `vite.config` file
 
 ```ts
 // vite.config.ts
-import iife from '@kitschpatrol/vite-plugin-iife'
+import iife from 'vite-plugin-iife'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
@@ -65,7 +65,7 @@ Add the extension declarations to your [types](https://www.typescriptlang.org/ts
 ```json
 {
   "compilerOptions": {
-    "types": ["@kitschpatrol/vite-plugin-iife/ext"]
+    "types": ["vite-plugin-iife/ext"]
   }
 }
 ```
@@ -73,7 +73,7 @@ Add the extension declarations to your [types](https://www.typescriptlang.org/ts
 Alternately, you can add a triple-slash package dependency directive to your global types file (e.g. `env.d.ts` or similar):
 
 ```ts
-/// <reference types="@kitschpatrol/vite-plugin-iife/ext" />
+/// <reference types="vite-plugin-iife/ext" />
 ```
 
 This step should take care of errors like:
