@@ -2,7 +2,7 @@
 	"name": "vite-plugin-iife",
 	"version": "1.0.0",
 	"type": "module",
-	"description": "Vite for simple IIFE-compiled script imports.",
+	"description": "Vite plugin for simple IIFE-compiled script imports.",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/kitschpatrol/vite-plugin-iife.git"
