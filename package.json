@@ -1,0 +1,74 @@
+{
+	"name": "vite-plugin-iife",
+	"version": "1.0.0",
+	"type": "module",
+	"description": "Vite for simple IIFE-compiled script imports.",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/kitschpatrol/vite-plugin-iife.git"
+	},
+	"homepage": "https://github.com/kitschpatrol/vite-plugin-iife",
+	"bugs": {
+		"url": "https://github.com/kitschpatrol/vite-plugin-iife/issues",
+		"email": "eric@ericmika.com"
+	},
+	"author": {
+		"name": "Eric Mika",
+		"email": "eric@ericmika.com",
+		"url": "https://ericmika.com"
+	},
+	"license": "MIT",
+	"packageManager": "pnpm@9.1.2",
+	"engines": {
+		"node": ">=18.0.0",
+		"pnpm": ">=8.0.0"
+	},
+	"main": "./dist/index.js",
+	"module": "./dist/index.js",
+	"exports": {
+		".": {
+			"import": "./dist/index.js",
+			"types": "./dist/index.d.ts"
+		},
+		"./ext": {
+			"types": "./ext.d.ts"
+		}
+	},
+	"types": "./dist/index.d.ts",
+	"files": [
+		"./ext.d.ts",
+		"dist"
+	],
+	"keywords": [
+		"vite-plugin",
+		"iife",
+		"vite",
+		"esbuild",
+		"import",
+		"npm-package"
+	],
+	"scripts": {
+		"build": "pnpm build:plugin",
+		"build:demo": "vite build",
+		"build:plugin": "tsx ./scripts/build-plugin.ts && tsc -p tsconfig.plugin.json",
+		"dev": "vite",
+		"fix": "shared-config --fix",
+		"lint": "shared-config --lint",
+		"preview": "vite preview",
+		"release": "pnpm build && pnpm bumpp --commit 'Release: %s' && pnpm publish --otp $(op read 'op://Personal/Npmjs/one-time password?attribute=otp')",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"devDependencies": {
+		"@kitschpatrol/shared-config": "^4.6.6",
+		"@types/node": "^20.12.12",
+		"bumpp": "^9.4.1",
+		"esbuild": "^0.21.3",
+		"pretty-bytes": "^6.1.1",
+		"tsx": "^4.11.0",
+		"typescript": "^5.4.5",
+		"vite": "^5.2.11"
+	},
+	"publishConfig": {
+		"access": "public"
+	}
+}
