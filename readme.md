@@ -15,7 +15,7 @@
 
 <!-- short-description -->
 
-**Vite plugin enabling IIFE-compiled script imports.**
+**Vite plugin for simple IIFE-compiled script imports.**
 
 <!-- /short-description -->
 
