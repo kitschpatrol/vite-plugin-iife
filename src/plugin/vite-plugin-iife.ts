@@ -4,10 +4,7 @@ import prettyBytes from 'pretty-bytes'
 import { type Plugin } from 'vite'
 
 export type IifePluginOptions = {
-	minify?:
-		| 'auto' /** Minify the output only in build / production */
-		| false /** Never minify the output */
-		| true /** Always minify the output */
+	minify?: 'auto' | boolean
 	verbose?: boolean
 }
 
