@@ -3,7 +3,7 @@ import esbuild from 'esbuild'
 await esbuild.build({
 	bundle: true,
 	entryPoints: ['src/plugin/index.ts'],
-	external: ['vite', 'esbuild'],
+	external: ['vite'],
 	format: 'esm',
 	minify: true,
 	outfile: 'dist/index.js',

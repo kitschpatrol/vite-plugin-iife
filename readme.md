@@ -108,10 +108,6 @@ The plugin accepts a few options in its initialization function in your `vite.co
 | `minify`  | `true \| false \| 'auto'` | Minify output. The 'auto' value only minifies on production builds. | 'auto'  |
 | `verbose` | `boolean`                 | Log information to the console.                                     | `false` |
 
-## Implementation notes
-
-This plugin uses [esbuild](https://esbuild.github.io) under the hood.
-
 ## Maintainers
 
 [@kitschpatrol](https://github.com/kitschpatrol)

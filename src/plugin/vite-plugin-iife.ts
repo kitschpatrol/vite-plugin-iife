@@ -1,7 +1,6 @@
-import esbuild from 'esbuild'
 import fs from 'node:fs/promises'
 import prettyBytes from 'pretty-bytes'
-import { type Plugin } from 'vite'
+import { type Plugin, build } from 'vite'
 
 export type IifePluginOptions = {
 	minify?: 'auto' | boolean
@@ -37,23 +36,35 @@ export default function iife(options?: IifePluginOptions): Plugin {
 				const minifyResolved =
 					resolvedOptions.minify === 'auto' ? Boolean(isBuild) : resolvedOptions.minify
 
-				const result = await esbuild.build({
-					bundle: true,
-					entryPoints: [cleanId],
-					format: 'iife',
-					minify: minifyResolved,
-					platform: 'browser',
-					target: 'es6',
-					treeShaking: true,
-					write: false,
+				const result = await build({
+					build: {
+						minify: minifyResolved,
+						rollupOptions: {
+							input: cleanId,
+							output: {
+								format: 'iife',
+							},
+							treeshake: true,
+						},
+						target: 'es6',
+						write: false,
+					},
+					configFile: false,
+					logLevel: resolvedOptions.verbose ? 'info' : 'silent',
+					root: process.cwd(),
 				})
 
+				// Type guard on Vite's output
+				if (!('output' in result)) {
+					throw new TypeError('Unexpected build result')
+				}
+
 				if (resolvedOptions.verbose) {
-					const prettySize = prettyBytes(result.outputFiles[0].contents.length)
+					const prettySize = prettyBytes(result.output[0].code.length)
 					console.log(`[vite-plugin-iife] Output size: ${prettySize}`)
 				}
 
-				const iifeCode = result.outputFiles[0].text
+				const iifeCode = result.output[0].code
 				const wrappedCode = `export default ${JSON.stringify(iifeCode)};`
 
 				return {
