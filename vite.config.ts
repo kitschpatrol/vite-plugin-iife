@@ -1,15 +1,26 @@
-import iifePlugin from './src/plugin'
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference types="vitest" />
+
+import iifePlugin from './src/vite-plugin-iife'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-	build: {
-		copyPublicDir: false,
-		emptyOutDir: true,
-		outDir: '../../dist-demo',
-	},
+	// Build: {
+	// 	copyPublicDir: false,
+	// 	emptyOutDir: true,
+	// 	outDir: '../../dist-demo',
+	// },
 	plugins: [iifePlugin({ minify: 'auto', verbose: true })],
 	// Some contortions to get the path to the cache
 	// to work from a subfolder
 	// publicDir: '../../',
-	root: './src/demo',
+	root: './test/assets',
+	test: {
+		browser: {
+			enabled: true,
+			name: 'chromium',
+			provider: 'playwright',
+		},
+		dir: 'test',
+	},
 })
