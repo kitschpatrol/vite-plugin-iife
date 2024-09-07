@@ -1,5 +1,5 @@
-import codeInlineScript from './assets/iife-me?iife'
 import { expect, it } from 'vitest'
+import codeInlineScript from './assets/iife-me?iife'
 
 // TODO this is not actually loading the index.html file
 // in ./test/assets

@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises'
 import prettyBytes from 'pretty-bytes'
-import { type Plugin, build } from 'vite'
+import { build, type Plugin } from 'vite'
 
 export type IifePluginOptions = {
 	minify?: 'auto' | boolean
