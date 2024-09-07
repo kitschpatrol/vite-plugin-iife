@@ -2,7 +2,7 @@ import esbuild from 'esbuild'
 
 await esbuild.build({
 	bundle: true,
-	entryPoints: ['src/vite-plugin-iife.ts'],
+	entryPoints: ['src/index.ts'],
 	external: ['vite'],
 	format: 'esm',
 	minify: true,
