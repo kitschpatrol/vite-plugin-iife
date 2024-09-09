@@ -2,7 +2,7 @@
 /// <reference types="vitest" />
 
 import { defineConfig } from 'vite'
-import iifePlugin from './src/vite-plugin-iife'
+import iifePlugin from './src'
 
 export default defineConfig({
 	// Build: {
