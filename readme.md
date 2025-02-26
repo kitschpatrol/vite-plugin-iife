@@ -38,7 +38,7 @@ console.log(inlineIifeSnippet)
 
 ### 1. Install the plugin package
 
-Assuming you're starting with a Vite project of some flavor:
+Assuming you're starting with a Vite 5 or 6 project of some flavor:
 
 ```sh
 npm install --save-dev vite-plugin-iife
