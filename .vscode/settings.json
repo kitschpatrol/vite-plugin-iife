@@ -4,12 +4,13 @@
 	"explorer.fileNesting.patterns": {
 		".env": ".env.*",
 		"package.json": ".*.cjs, .*.js, .*.json, .*.mjs, .*.toml, .*.ts, .*.yaml, .*.yml, .*ignore, .*rc, *config.cjs, *config.js, *config.json, *config.mjs, *config.toml, *config.ts, *config.yaml, *config.yml, lerna.json, netlify.toml, package-lock.json, , pnpm*, turbo.json, vercel.json, workspace*, wrangler.toml, yarn.lock, yarn*",
-		"readme.md": "authors*, backers*, changelog*, citation*, code_of_conduct*, codeowners*, contributing*, contributors*, copying*, credits*, governance*, history*, license*, maintainers*, release_notes*, security*, sponsors*"
+		"readme.md": "authors*, backers*, changelog*, citation*, code_of_conduct*, contributing*, contributors*, copying*, credits*, governance*, history*, license*, maintainers*, release_notes*, security*, sponsors*"
 	},
 	"cSpell.enabled": true,
 	"cSpell.workspaceRootPath": ".",
 	"editor.codeActionsOnSave": {
-		"source.fixAll": "explicit"
+		"source.fixAll": "explicit",
+		"source.organizeImports": "never"
 	},
 	"eslint.enable": true,
 	"eslint.validate": [
@@ -21,7 +22,13 @@
 		"mdx",
 		"svelte",
 		"typescript",
-		"typescriptreact"
+		"typescriptreact",
+		"json",
+		"json5",
+		"jsonc",
+		"toml",
+		"xml",
+		"yaml"
 	],
 	"typescript.tsdk": "node_modules/typescript/lib",
 	"[astro]": {
@@ -52,5 +59,8 @@
 	],
 	"prettier.enable": true,
 	"stylelint.enable": true,
-	"stylelint.validate": ["css", "html", "svelte", "astro"]
+	"stylelint.validate": ["css", "html", "svelte", "astro"],
+	"typescript.enablePromptUseWorkspaceTsdk": true,
+	"eslint.runtime": "node",
+	"eslint.useFlatConfig": true
 }

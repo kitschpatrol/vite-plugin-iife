@@ -7,6 +7,9 @@ export type IifePluginOptions = {
 	verbose?: boolean
 }
 
+/**
+ * A Vite plugin that builds an IIFE version of a module.
+ */
 export default function iife(options?: IifePluginOptions): Plugin {
 	// Merge user options with defaults
 	const resolvedOptions: Required<IifePluginOptions> = {

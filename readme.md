@@ -47,9 +47,9 @@ npm install --save-dev vite-plugin-iife
 ### 2. Add the plugin to your `vite.config` file
 
 ```ts
-// vite.config.ts
-import iife from 'vite-plugin-iife'
+// Vite.config.ts
 import { defineConfig } from 'vite'
+import iife from 'vite-plugin-iife'
 
 export default defineConfig({
   plugins: [iife()],

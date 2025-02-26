@@ -1,24 +1,27 @@
 {
 	"name": "vite-plugin-iife",
 	"version": "1.1.6",
-	"type": "module",
 	"description": "Vite plugin for simple IIFE-compiled script imports.",
-	"repository": "github:kitschpatrol/vite-plugin-iife",
+	"keywords": [
+		"vite-plugin",
+		"iife",
+		"vite",
+		"import",
+		"npm-package"
+	],
 	"homepage": "https://github.com/kitschpatrol/vite-plugin-iife",
 	"bugs": "https://github.com/kitschpatrol/vite-plugin-iife/issues",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/github:kitschpatrol/vite-plugin-iife"
+	},
+	"license": "MIT",
 	"author": {
 		"name": "Eric Mika",
 		"email": "eric@ericmika.com",
 		"url": "https://ericmika.com"
 	},
-	"license": "MIT",
-	"packageManager": "pnpm@9.10.0",
-	"engines": {
-		"node": ">=18.0.0",
-		"pnpm": ">=9.0.0"
-	},
-	"main": "./dist/index.js",
-	"module": "./dist/index.js",
+	"type": "module",
 	"exports": {
 		".": {
 			"import": "./dist/index.js",
@@ -28,44 +31,53 @@
 			"types": "./ext.d.ts"
 		}
 	},
+	"main": "./dist/index.js",
+	"module": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"files": [
 		"./ext.d.ts",
 		"dist"
 	],
-	"keywords": [
-		"vite-plugin",
-		"iife",
-		"vite",
-		"import",
-		"npm-package"
-	],
 	"scripts": {
 		"build": "tsx ./scripts/build-plugin.ts && tsc -p tsconfig.plugin.json",
 		"clean": "git rm -f pnpm-lock.yaml ; git clean -fdX",
-		"fix": "shared-config --fix",
-		"lint": "shared-config --lint",
-		"preview": "vite preview",
+		"fix": "kpi fix",
+		"lint": "kpi lint",
 		"release": "bumpp --commit 'Release: %s' && pnpm run build && pnpm publish --otp $(op read 'op://Personal/Npmjs/one-time password?attribute=otp')",
 		"test": "vitest"
 	},
-	"peerDependencies": {
-		"vite": "^5.0.0"
-	},
 	"devDependencies": {
-		"@kitschpatrol/shared-config": "^4.7.9",
+		"@kitschpatrol/shared-config": "^5.0.6",
 		"@types/node": "18.0.0",
-		"@vitest/browser": "^2.1.1",
-		"bumpp": "^9.5.2",
-		"esbuild": "^0.23.1",
-		"playwright": "^1.47.1",
+		"@vitest/browser": "^3.0.7",
+		"bumpp": "^10.0.3",
+		"esbuild": "^0.25.0",
+		"playwright": "^1.50.1",
 		"pretty-bytes": "^6.1.1",
-		"tsx": "^4.19.1",
-		"typescript": "^5.6.2",
-		"vite": "^5.4.5",
-		"vitest": "^2.1.1"
+		"tsx": "^4.19.3",
+		"typescript": "^5.7.3",
+		"vite": "^6.2.0",
+		"vitest": "^3.0.7"
+	},
+	"peerDependencies": {
+		"vite": "^5.0.0 || ^6.0.0"
+	},
+	"packageManager": "pnpm@10.5.0",
+	"engines": {
+		"node": ">=18.0.0",
+		"pnpm": ">=9.0.0"
 	},
 	"publishConfig": {
 		"access": "public"
+	},
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"esbuild",
+			"msw",
+			"puppeteer"
+		],
+		"overrides": {
+			"eslint-plugin-markdown": "^5.1.0"
+		}
 	}
 }

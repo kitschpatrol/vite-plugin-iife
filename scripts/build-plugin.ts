@@ -1,6 +1,6 @@
-import esbuild from 'esbuild'
+import { build } from 'esbuild'
 
-await esbuild.build({
+await build({
 	bundle: true,
 	entryPoints: ['src/index.ts'],
 	external: ['vite'],
@@ -9,4 +9,5 @@ await esbuild.build({
 	outfile: 'dist/index.js',
 	platform: 'node',
 	target: 'node18',
+	tsconfig: 'tsconfig.plugin.json',
 })
