@@ -13,7 +13,7 @@
 	"bugs": "https://github.com/kitschpatrol/vite-plugin-iife/issues",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/kitschpatrol/vite-plugin-iife"
+		"url": "git+https://github.com/kitschpatrol/vite-plugin-iife.git"
 	},
 	"license": "MIT",
 	"author": {
@@ -47,25 +47,24 @@
 		"test": "vitest"
 	},
 	"devDependencies": {
-		"@kitschpatrol/shared-config": "^5.0.6",
-		"@types/node": "18.0.0",
+		"@kitschpatrol/shared-config": "^5.2.0",
+		"@types/node": "^18.19.79",
 		"@vitest/browser": "^3.0.7",
 		"bumpp": "^10.0.3",
 		"esbuild": "^0.25.0",
 		"playwright": "^1.50.1",
 		"pretty-bytes": "^6.1.1",
 		"tsx": "^4.19.3",
-		"typescript": "^5.7.3",
+		"typescript": "^5.8.2",
 		"vite": "^6.2.0",
 		"vitest": "^3.0.7"
 	},
 	"peerDependencies": {
 		"vite": "^5.0.0 || ^6.0.0"
 	},
-	"packageManager": "pnpm@10.5.0",
+	"packageManager": "pnpm@10.5.2",
 	"engines": {
-		"node": ">=18.0.0",
-		"pnpm": ">=9.0.0"
+		"node": ">=18.0.0"
 	},
 	"publishConfig": {
 		"access": "public"
