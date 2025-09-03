@@ -47,36 +47,26 @@
 		"test": "vitest"
 	},
 	"devDependencies": {
-		"@kitschpatrol/shared-config": "^5.2.0",
-		"@types/node": "^18.19.79",
-		"@vitest/browser": "^3.0.7",
-		"bumpp": "^10.0.3",
-		"esbuild": "^0.25.0",
-		"playwright": "^1.50.1",
-		"pretty-bytes": "^6.1.1",
-		"tsx": "^4.19.3",
-		"typescript": "^5.8.2",
-		"vite": "^6.2.0",
-		"vitest": "^3.0.7"
+		"@kitschpatrol/shared-config": "^5.6.0",
+		"@types/node": "^20.19.11",
+		"@vitest/browser": "^3.2.4",
+		"bumpp": "^10.2.3",
+		"esbuild": "^0.25.9",
+		"playwright": "^1.55.0",
+		"pretty-bytes": "^7.0.1",
+		"tsx": "^4.20.5",
+		"typescript": "^5.9.2",
+		"vite": "^7.1.4",
+		"vitest": "^3.2.4"
 	},
 	"peerDependencies": {
-		"vite": "^5.0.0 || ^6.0.0"
+		"vite": "^5.0.0 || ^6.0.0 || ^7.0.0"
 	},
-	"packageManager": "pnpm@10.5.2",
+	"packageManager": "pnpm@10.15.1",
 	"engines": {
-		"node": ">=18.0.0"
+		"node": ">=20.19.0"
 	},
 	"publishConfig": {
 		"access": "public"
-	},
-	"pnpm": {
-		"onlyBuiltDependencies": [
-			"esbuild",
-			"msw",
-			"puppeteer"
-		],
-		"overrides": {
-			"eslint-plugin-markdown": "^5.1.0"
-		}
 	}
 }

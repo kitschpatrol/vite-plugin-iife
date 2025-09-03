@@ -1,6 +1,7 @@
+import type { Plugin } from 'vite'
 import fs from 'node:fs/promises'
 import prettyBytes from 'pretty-bytes'
-import { build, type Plugin } from 'vite'
+import { build } from 'vite'
 
 export type IifePluginOptions = {
 	minify?: 'auto' | boolean
@@ -36,8 +37,7 @@ export default function iife(options?: IifePluginOptions): Plugin {
 					console.log(`[vite-plugin-iife] Input size:  ${prettyBytes(size)}`)
 				}
 
-				const minifyResolved =
-					resolvedOptions.minify === 'auto' ? Boolean(isBuild) : resolvedOptions.minify
+				const minifyResolved = resolvedOptions.minify === 'auto' ? isBuild : resolvedOptions.minify
 
 				const result = await build({
 					build: {

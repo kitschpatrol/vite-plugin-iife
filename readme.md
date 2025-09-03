@@ -25,7 +25,7 @@ Sometimes you need a small snippet of code to run in a specific place at at a sp
 
 Running scripts as modules is great, but [by design they are unavoidably executed](https://jakearchibald.com/2017/es-modules-in-browsers/#defer-by-default) with an implicit `defer`, and build systems can make it tricky to get a single chunk of code to behave differently.
 
-This plugin lets you write scripts to be inlined using either JavaScript or TypeScript, and get a minified JavaScript [`IIFE`](https://developer.mozilla.org/en-US/docs/Glossary/IIFE) snippet of code via an `import` statement, which makes it easy to integrate with static site generators:
+This plugin lets you write scripts to be inlined using either JavaScript or TypeScript, and get a minified JavaScript [IIFE](https://developer.mozilla.org/en-US/docs/Glossary/IIFE) snippet of code via an `import` statement, which makes it easy to integrate with static site generators:
 
 ```ts
 import inlineIifeSnippet from './some-script.ts?iife'
@@ -38,7 +38,7 @@ console.log(inlineIifeSnippet)
 
 ### 1. Install the plugin package
 
-Assuming you're starting with a Vite 5 or 6 project of some flavor:
+Assuming you're starting with a Vite project of some flavor:
 
 ```sh
 npm install --save-dev vite-plugin-iife
