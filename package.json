@@ -43,26 +43,26 @@
 		"clean": "git rm -f pnpm-lock.yaml ; git clean -fdX",
 		"fix": "ksc fix",
 		"lint": "ksc lint",
-		"release": "bumpp --commit 'Release: %s' && pnpm run build && pnpm publish --otp $(op read 'op://Personal/Npmjs/one-time password?attribute=otp')",
+		"release": "bumpp --commit 'Release: %s' && pnpm run build && NPM_AUTH_TOKEN=$(op read 'op://Personal/npm/token') && pnpm publish",
 		"test": "vitest"
 	},
 	"devDependencies": {
-		"@kitschpatrol/shared-config": "^5.7.1",
-		"@types/node": "^20.19.19",
-		"@vitest/browser": "^3.2.4",
-		"bumpp": "^10.2.3",
-		"esbuild": "^0.25.10",
-		"playwright": "^1.55.1",
+		"@kitschpatrol/shared-config": "^5.8.1",
+		"@types/node": "^20.19.24",
+		"@vitest/browser-playwright": "^4.0.7",
+		"bumpp": "^10.3.1",
+		"esbuild": "^0.25.12",
+		"playwright": "^1.56.1",
 		"pretty-bytes": "^7.1.0",
 		"tsx": "^4.20.6",
 		"typescript": "^5.9.3",
-		"vite": "^7.1.8",
-		"vitest": "^3.2.4"
+		"vite": "^7.1.12",
+		"vitest": "^4.0.7"
 	},
 	"peerDependencies": {
 		"vite": "^5.0.0 || ^6.0.0 || ^7.0.0"
 	},
-	"packageManager": "pnpm@10.18.0",
+	"packageManager": "pnpm@10.20.0",
 	"engines": {
 		"node": ">=20.19.0"
 	},

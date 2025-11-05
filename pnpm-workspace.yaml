@@ -1,5 +1,4 @@
 onlyBuiltDependencies:
   - esbuild
   - oxc-resolver
-  - puppeteer
   - unrs-resolver
