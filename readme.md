@@ -97,6 +97,27 @@ import iifeSnippet from './some-script.ts?iife'
 import snippet from './some-script.ts'
 ```
 
+### URL imports
+
+Append `?iife&url` to get a URL to the IIFE file instead of the code string. This is useful when you want to load the script via `<script src="">` rather than inlining it:
+
+```ts
+import iifeUrl from './some-script.ts?iife&url'
+
+// In dev: "/__iife/some-script.ts"
+// In build: "/assets/some-script-[hash].iife.js"
+console.log(iifeUrl)
+```
+
+This follows Vite's convention for `?url` imports on other asset types.
+
+### Summary
+
+| Import      | Returns             | Use case                                |
+| ----------- | ------------------- | --------------------------------------- |
+| `?iife`     | IIFE code as string | Inline `<script>` tags, SSR templates   |
+| `?iife&url` | URL to IIFE file    | `<script src="">` tags, dynamic loading |
+
 Since there's no code splitting or externalization of dependencies, `vite-plugin-iife` is only recommended for small and relatively self-contained scripts. The `verbose` option can help you keep tabs on the output size during development.
 
 ### Plugin options
