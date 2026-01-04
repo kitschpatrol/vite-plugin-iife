@@ -47,21 +47,21 @@
 		"test": "vitest"
 	},
 	"devDependencies": {
-		"@kitschpatrol/shared-config": "^5.10.0",
-		"@types/node": "^20.19.25",
-		"@vitest/browser-playwright": "^4.0.15",
+		"@kitschpatrol/shared-config": "^5.11.0",
+		"@types/node": "^20.19.27",
+		"@vitest/browser-playwright": "^4.0.16",
 		"bumpp": "^10.3.2",
-		"esbuild": "^0.27.1",
+		"esbuild": "^0.27.2",
 		"pretty-bytes": "^7.1.0",
 		"tsx": "^4.21.0",
 		"typescript": "^5.9.3",
-		"vite": "^7.2.7",
-		"vitest": "^4.0.15"
+		"vite": "^7.3.0",
+		"vitest": "^4.0.16"
 	},
 	"peerDependencies": {
 		"vite": "^5.0.0 || ^6.0.0 || ^7.0.0"
 	},
-	"packageManager": "pnpm@10.25.0",
+	"packageManager": "pnpm@10.27.0",
 	"engines": {
 		"node": ">=20.19.0"
 	}
