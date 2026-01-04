@@ -42,14 +42,21 @@ export default function iife(options?: IifePluginOptions): Plugin {
 				}
 
 				const filePath = request.url.slice(IIFE_URL_PREFIX.length)
-				const absolutePath = path.join(root, filePath)
+				const relativeFilePath = filePath.startsWith('/') ? filePath.slice(1) : filePath
+				const absolutePath = path.resolve(root, relativeFilePath)
+
+				if (!absolutePath.startsWith(root)) {
+					response.statusCode = 403
+					response.end('Access Denied')
+					return
+				}
 
 				try {
 					// Check cache first
 					let iifeCode = iifeCache.get(absolutePath)
 
 					if (!iifeCode) {
-						iifeCode = await buildIife(absolutePath, resolvedOptions, isBuild)
+						iifeCode = await buildIife(absolutePath, resolvedOptions, isBuild, root)
 						iifeCache.set(absolutePath, iifeCode)
 					}
 
@@ -78,7 +85,7 @@ export default function iife(options?: IifePluginOptions): Plugin {
 
 				if (!isBuild) {
 					// Dev mode: return virtual URL served by middleware
-					const relativePath = path.relative(root, cleanId)
+					const relativePath = path.relative(root, cleanId).split(path.sep).join('/')
 					const url = `${IIFE_URL_PREFIX}/${relativePath}`
 					return {
 						code: `export default ${JSON.stringify(url)};`,
@@ -87,7 +94,7 @@ export default function iife(options?: IifePluginOptions): Plugin {
 				}
 
 				// Build mode: emit file as asset and return URL
-				const iifeCode = await buildIife(cleanId, resolvedOptions, isBuild)
+				const iifeCode = await buildIife(cleanId, resolvedOptions, isBuild, root)
 				const fileName = path.basename(cleanId).replace(/\.[^.]+$/, '.iife.js')
 
 				const refId = this.emitFile({
@@ -105,7 +112,7 @@ export default function iife(options?: IifePluginOptions): Plugin {
 			// Handle ?iife - return IIFE code as string (existing behavior)
 			if (id.endsWith('?iife')) {
 				const cleanId = id.replace(/\?.*$/, '')
-				const iifeCode = await buildIife(cleanId, resolvedOptions, isBuild)
+				const iifeCode = await buildIife(cleanId, resolvedOptions, isBuild, root)
 
 				return {
 					code: `export default ${JSON.stringify(iifeCode)};`,
@@ -123,6 +130,7 @@ async function buildIife(
 	filePath: string,
 	options: Required<IifePluginOptions>,
 	isBuild: boolean,
+	root: string,
 ): Promise<string> {
 	if (options.verbose) {
 		console.log(`[vite-plugin-iife] Building IIFE version of "${filePath}"`)
@@ -147,7 +155,7 @@ async function buildIife(
 		},
 		configFile: false,
 		logLevel: options.verbose ? 'info' : 'silent',
-		root: process.cwd(),
+		root,
 	})
 
 	// Type guard on Vite's output

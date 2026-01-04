@@ -84,29 +84,32 @@ Cannot find module './test-script.ts?iife' or its corresponding type declaration
 
 ## Usage
 
-### IIFE imports
+### IIFE string imports
 
 Append `?iife` to any script import string to receive the IIFE-compiled code as a default export string:
 
 ```ts
-// Imported as an IIFE-compiled string
-// Embed it in a <script> tag somewhere, etc.
+// Import contents of some-script.ts as an IIFE-compiled JavaScript string
 import iifeSnippet from './some-script.ts?iife'
 
-// Imported normally
-import snippet from './some-script.ts'
+// Inject the IIFE code in a `<script>` tag
+const script = document.createElement('script')
+script.textContent = iifeSnippet
+document.head.append(script)
 ```
 
-### URL imports
+### IIFE file URL imports
 
-Append `?iife&url` to get a URL to the IIFE file instead of the code string. This is useful when you want to load the script via `<script src="">` rather than inlining it:
+Append `?iife&url` to get a URL to the IIFE-compiled file instead of the code string. This is useful when you want to load the script via `<script src="">` rather than inlining it:
 
 ```ts
+// Import contents of some-script.ts to an IIFE-compiled JavaScript file and return its URL
 import iifeUrl from './some-script.ts?iife&url'
 
-// In dev: "/__iife/some-script.ts"
-// In build: "/assets/some-script-[hash].iife.js"
-console.log(iifeUrl)
+// Create a script tag and set the source to the IIFE file URL
+const script = document.createElement('script')
+script.src = iifeUrl
+document.head.append(script)
 ```
 
 This follows Vite's convention for `?url` imports on other asset types.
