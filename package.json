@@ -46,13 +46,15 @@
 		"release": "bumpp --commit 'Release: %s' && pnpm run build && NPM_AUTH_TOKEN=$(op read 'op://Personal/npm/token') && pnpm publish",
 		"test": "vitest"
 	},
+	"dependencies": {
+		"pretty-bytes": "^7.1.0"
+	},
 	"devDependencies": {
 		"@kitschpatrol/shared-config": "^5.11.0",
 		"@types/node": "^20.19.27",
 		"@vitest/browser-playwright": "^4.0.16",
 		"bumpp": "^10.3.2",
 		"esbuild": "^0.27.2",
-		"pretty-bytes": "^7.1.0",
 		"tsx": "^4.21.0",
 		"typescript": "^5.9.3",
 		"vite": "^7.3.0",

@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      pretty-bytes:
+        specifier: ^7.1.0
+        version: 7.1.0
     devDependencies:
       '@kitschpatrol/shared-config':
         specifier: ^5.11.0
@@ -23,9 +27,6 @@ importers:
       esbuild:
         specifier: ^0.27.2
         version: 0.27.2
-      pretty-bytes:
-        specifier: ^7.1.0
-        version: 7.1.0
       tsx:
         specifier: ^4.21.0
         version: 4.21.0
