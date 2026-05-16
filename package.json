@@ -21,6 +21,7 @@
 		"email": "eric@ericmika.com",
 		"url": "https://ericmika.com"
 	},
+	"sideEffects": false,
 	"type": "module",
 	"exports": {
 		".": {
@@ -40,31 +41,38 @@
 	],
 	"scripts": {
 		"build": "tsx ./scripts/build-plugin.ts && tsc -p tsconfig.plugin.json",
-		"clean": "git rm -f pnpm-lock.yaml ; git clean -fdX",
+		"clean": "shx rm -f pnpm-lock.yaml && git clean -fdX -e !.claude/",
 		"fix": "ksc fix",
 		"lint": "ksc lint",
-		"release": "bumpp --commit 'Release: %s' && pnpm run build && NPM_AUTH_TOKEN=$(op read 'op://Personal/npm/token') && pnpm publish",
-		"test": "vitest"
+		"release": "bumpp --commit 'Release: %s' && pnpm build && NPM_AUTH_TOKEN=$(op read 'op://Personal/npm/token') pnpm publish",
+		"test": "vitest run"
 	},
 	"dependencies": {
 		"pretty-bytes": "^7.1.0"
 	},
 	"devDependencies": {
-		"@kitschpatrol/shared-config": "^5.11.0",
-		"@types/node": "^20.19.27",
-		"@vitest/browser-playwright": "^4.0.16",
-		"bumpp": "^10.3.2",
-		"esbuild": "^0.27.2",
-		"tsx": "^4.21.0",
+		"@kitschpatrol/shared-config": "^7.6.0",
+		"@types/node": "^20.19.41",
+		"@vitest/browser-playwright": "^4.1.6",
+		"bumpp": "^11.1.0",
+		"esbuild": "^0.28.0",
+		"shx": "^0.4.0",
+		"tsx": "^4.22.0",
 		"typescript": "^5.9.3",
-		"vite": "^7.3.0",
-		"vitest": "^4.0.16"
+		"vite": "^7.3.3",
+		"vitest": "^4.1.6"
 	},
 	"peerDependencies": {
 		"vite": "^5.0.0 || ^6.0.0 || ^7.0.0"
 	},
-	"packageManager": "pnpm@10.27.0",
+	"packageManager": "pnpm@11.1.2",
 	"engines": {
 		"node": ">=20.19.0"
+	},
+	"devEngines": {
+		"runtime": {
+			"name": "node",
+			"version": ">=22.18.0"
+		}
 	}
 }

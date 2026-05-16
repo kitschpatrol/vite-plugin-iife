@@ -1,4 +1,4 @@
-import type { Plugin, ViteDevServer } from 'vite'
+import type { Logger, Plugin, ViteDevServer } from 'vite'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import prettyBytes from 'pretty-bytes'
@@ -10,6 +10,8 @@ export type IifePluginOptions = {
 }
 
 const IIFE_URL_PREFIX = '/__iife'
+const QUERY_STRING_REGEX = /\?.*$/
+const FILE_EXTENSION_REGEX = /\.[^.]+$/
 
 /**
  * A Vite plugin that builds an IIFE version of a module.
@@ -22,6 +24,7 @@ export default function iife(options?: IifePluginOptions): Plugin {
 		...stripUndefined(options),
 	}
 
+	let logger: Logger | undefined
 	let isBuild = false
 	let root = process.cwd()
 
@@ -32,6 +35,7 @@ export default function iife(options?: IifePluginOptions): Plugin {
 		configResolved(config) {
 			isBuild = config.command === 'build'
 			root = config.root
+			logger = config.logger
 		},
 		// Serve IIFE files in dev mode
 		configureServer(server: ViteDevServer) {
@@ -56,7 +60,7 @@ export default function iife(options?: IifePluginOptions): Plugin {
 					let iifeCode = iifeCache.get(absolutePath)
 
 					if (!iifeCode) {
-						iifeCode = await buildIife(absolutePath, resolvedOptions, isBuild, root)
+						iifeCode = await buildIife(absolutePath, resolvedOptions, isBuild, root, logger)
 						iifeCache.set(absolutePath, iifeCode)
 					}
 
@@ -72,7 +76,7 @@ export default function iife(options?: IifePluginOptions): Plugin {
 				if (iifeCache.has(changedPath)) {
 					iifeCache.delete(changedPath)
 					if (resolvedOptions.verbose) {
-						console.log(`[vite-plugin-iife] Cache invalidated for "${changedPath}"`)
+						logger?.info(`[vite-plugin-iife] Cache invalidated for "${changedPath}"`)
 					}
 				}
 			})
@@ -81,7 +85,7 @@ export default function iife(options?: IifePluginOptions): Plugin {
 		async transform(_, id) {
 			// Handle ?iife&url - return URL to the IIFE file
 			if (id.includes('?iife&url') || id.includes('?url&iife')) {
-				const cleanId = id.replace(/\?.*$/, '')
+				const cleanId = id.replace(QUERY_STRING_REGEX, '')
 
 				if (!isBuild) {
 					// Dev mode: return virtual URL served by middleware
@@ -94,8 +98,8 @@ export default function iife(options?: IifePluginOptions): Plugin {
 				}
 
 				// Build mode: emit file as asset and return URL
-				const iifeCode = await buildIife(cleanId, resolvedOptions, isBuild, root)
-				const fileName = path.basename(cleanId).replace(/\.[^.]+$/, '.iife.js')
+				const iifeCode = await buildIife(cleanId, resolvedOptions, isBuild, root, logger)
+				const fileName = path.basename(cleanId).replace(FILE_EXTENSION_REGEX, '.iife.js')
 
 				const refId = this.emitFile({
 					name: fileName,
@@ -111,8 +115,8 @@ export default function iife(options?: IifePluginOptions): Plugin {
 
 			// Handle ?iife - return IIFE code as string (existing behavior)
 			if (id.endsWith('?iife')) {
-				const cleanId = id.replace(/\?.*$/, '')
-				const iifeCode = await buildIife(cleanId, resolvedOptions, isBuild, root)
+				const cleanId = id.replace(QUERY_STRING_REGEX, '')
+				const iifeCode = await buildIife(cleanId, resolvedOptions, isBuild, root, logger)
 
 				return {
 					code: `export default ${JSON.stringify(iifeCode)};`,
@@ -131,11 +135,12 @@ async function buildIife(
 	options: Required<IifePluginOptions>,
 	isBuild: boolean,
 	root: string,
+	logger?: Logger,
 ): Promise<string> {
 	if (options.verbose) {
-		console.log(`[vite-plugin-iife] Building IIFE version of "${filePath}"`)
+		logger?.info(`[vite-plugin-iife] Building IIFE version of "${filePath}"`)
 		const { size } = await fs.stat(filePath)
-		console.log(`[vite-plugin-iife] Input size:  ${prettyBytes(size)}`)
+		logger?.info(`[vite-plugin-iife] Input size:  ${prettyBytes(size)}`)
 	}
 
 	const minifyResolved = options.minify === 'auto' ? isBuild : options.minify
@@ -166,8 +171,7 @@ async function buildIife(
 	const iifeCode = result.output[0].code
 
 	if (options.verbose) {
-		const prettySize = prettyBytes(iifeCode.length)
-		console.log(`[vite-plugin-iife] Output size: ${prettySize}`)
+		logger?.info(`[vite-plugin-iife] Output size: ${prettyBytes(iifeCode.length)}`)
 	}
 
 	return iifeCode
@@ -176,6 +180,9 @@ async function buildIife(
 function stripUndefined(
 	options: Record<string, unknown> | undefined,
 ): Record<string, unknown> | undefined {
-	if (options === undefined) return undefined
+	if (options === undefined) {
+		return undefined
+	}
+
 	return Object.fromEntries(Object.entries(options).filter(([, value]) => value !== undefined))
 }
