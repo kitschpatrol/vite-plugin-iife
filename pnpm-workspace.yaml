@@ -13,6 +13,8 @@ peerDependencyRules:
   allowedVersions:
     # No eslint 10 release yet, but runtime-compatible
     'eslint-plugin-jsx-a11y>eslint': '10'
+    # Vitest 5 types check against @types/node 20, kept to match the consumer Node.js floor
+    'vitest@5>@types/node': '20'
 allowBuilds:
   esbuild: true
   unrs-resolver: true
