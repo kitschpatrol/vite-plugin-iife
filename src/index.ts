@@ -10,8 +10,8 @@ export type IifePluginOptions = {
 }
 
 const IIFE_URL_PREFIX = '/__iife'
-const QUERY_STRING_REGEX = /\?.*$/
-const FILE_EXTENSION_REGEX = /\.[^.]+$/
+const QUERY_STRING_REGEX = /\?.*$/v
+const FILE_EXTENSION_REGEX = /\.[^.]+$/v
 
 /**
  * A Vite plugin that builds an IIFE version of a module.
@@ -39,45 +39,49 @@ export default function iife(options?: IifePluginOptions): Plugin {
 		},
 		// Serve IIFE files in dev mode
 		configureServer(server: ViteDevServer) {
-			server.middlewares.use(async (request, response, next) => {
-				if (!request.url?.startsWith(IIFE_URL_PREFIX + '/')) {
-					next()
-					return
-				}
-
-				const filePath = request.url.slice(IIFE_URL_PREFIX.length)
-				const relativeFilePath = filePath.startsWith('/') ? filePath.slice(1) : filePath
-				const absolutePath = path.resolve(root, relativeFilePath)
-
-				if (!absolutePath.startsWith(root)) {
-					response.statusCode = 403
-					response.end('Access Denied')
-					return
-				}
-
-				try {
-					// Check cache first
-					let iifeCode = iifeCache.get(absolutePath)
-
-					if (!iifeCode) {
-						iifeCode = await buildIife(absolutePath, resolvedOptions, isBuild, root, logger)
-						iifeCache.set(absolutePath, iifeCode)
+			server.middlewares.use((request, response, next) => {
+				void (async () => {
+					if (!request.url?.startsWith(IIFE_URL_PREFIX + '/')) {
+						next()
+						return
 					}
 
-					response.setHeader('Content-Type', 'application/javascript')
-					response.end(iifeCode)
-				} catch (error) {
-					next(error)
-				}
+					const filePath = request.url.slice(IIFE_URL_PREFIX.length)
+					const relativeFilePath = filePath.startsWith('/') ? filePath.slice(1) : filePath
+					const absolutePath = path.resolve(root, relativeFilePath)
+
+					if (!absolutePath.startsWith(root)) {
+						response.statusCode = 403
+						response.end('Access Denied')
+						return
+					}
+
+					try {
+						// Check cache first
+						let iifeCode = iifeCache.get(absolutePath)
+
+						if (iifeCode === undefined || iifeCode === '') {
+							iifeCode = await buildIife(absolutePath, resolvedOptions, isBuild, root, logger)
+							iifeCache.set(absolutePath, iifeCode)
+						}
+
+						response.setHeader('Content-Type', 'application/javascript')
+						response.end(iifeCode)
+					} catch (error) {
+						next(error)
+					}
+				})()
 			})
 
 			// Invalidate cache on file changes
 			server.watcher.on('change', (changedPath) => {
-				if (iifeCache.has(changedPath)) {
-					iifeCache.delete(changedPath)
-					if (resolvedOptions.verbose) {
-						logger?.info(`[vite-plugin-iife] Cache invalidated for "${changedPath}"`)
-					}
+				if (!iifeCache.has(changedPath)) {
+					return
+				}
+
+				iifeCache.delete(changedPath)
+				if (resolvedOptions.verbose) {
+					logger?.info(`[vite-plugin-iife] Cache invalidated for "${changedPath}"`)
 				}
 			})
 		},
@@ -101,6 +105,7 @@ export default function iife(options?: IifePluginOptions): Plugin {
 				const iifeCode = await buildIife(cleanId, resolvedOptions, isBuild, root, logger)
 				const fileName = path.basename(cleanId).replace(FILE_EXTENSION_REGEX, '.iife.js')
 
+				// eslint-disable-next-line unicorn/no-this-outside-of-class -- Rollup passes the plugin context to hooks as `this`
 				const refId = this.emitFile({
 					name: fileName,
 					source: iifeCode,
@@ -114,14 +119,16 @@ export default function iife(options?: IifePluginOptions): Plugin {
 			}
 
 			// Handle ?iife - return IIFE code as string (existing behavior)
-			if (id.endsWith('?iife')) {
-				const cleanId = id.replace(QUERY_STRING_REGEX, '')
-				const iifeCode = await buildIife(cleanId, resolvedOptions, isBuild, root, logger)
+			if (!id.endsWith('?iife')) {
+				return
+			}
 
-				return {
-					code: `export default ${JSON.stringify(iifeCode)};`,
-					map: undefined,
-				}
+			const cleanId = id.replace(QUERY_STRING_REGEX, '')
+			const iifeCode = await buildIife(cleanId, resolvedOptions, isBuild, root, logger)
+
+			return {
+				code: `export default ${JSON.stringify(iifeCode)};`,
+				map: undefined,
 			}
 		},
 	}
@@ -180,9 +187,7 @@ async function buildIife(
 function stripUndefined(
 	options: Record<string, unknown> | undefined,
 ): Record<string, unknown> | undefined {
-	if (options === undefined) {
-		return undefined
-	}
-
-	return Object.fromEntries(Object.entries(options).filter(([, value]) => value !== undefined))
+	return options === undefined
+		? undefined
+		: Object.fromEntries(Object.entries(options).filter(([, value]) => value !== undefined))
 }
