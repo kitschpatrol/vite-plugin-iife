@@ -6,8 +6,8 @@
 
 <!-- badges -->
 
-[![NPM Package vite-plugin-iife](https://img.shields.io/npm/v/vite-plugin-iife.svg)](https://npmjs.com/package/vite-plugin-iife)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/license/mit/)
+[![NPM Package vite-plugin-iife](https://img.shields.io/npm/v/vite-plugin-iife.svg)](https://www.npmjs.com/package/vite-plugin-iife)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/license/mit)
 [![CI](https://github.com/kitschpatrol/vite-plugin-iife/actions/workflows/ci.yml/badge.svg)](https://github.com/kitschpatrol/vite-plugin-iife/actions/workflows/ci.yml)
 
 <!-- /badges -->
@@ -20,7 +20,7 @@
 
 ## Overview
 
-Sometimes you need a small snippet of code to run in a specific place at at a specific time during a page's loading process to achieve a specific effect or prevent the dreaded [FOUC](https://en.wikipedia.org/wiki/Flash_of_unstyled_content).
+Sometimes you need a small snippet of code to run in a specific place at a specific time during a page's loading process to achieve a specific effect or prevent the dreaded [FOUC](https://en.wikipedia.org/wiki/Flash_of_unstyled_content).
 
 Running scripts as modules is great, but [by design they are unavoidably executed](https://jakearchibald.com/2017/es-modules-in-browsers/#defer-by-default) with an implicit `defer`, and build systems can make it tricky to get a single chunk of code to behave differently.
 
