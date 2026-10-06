@@ -22,3 +22,5 @@ vendor/
 
 # Customizations
 .claude/
+/.agents
+skills-lock.json

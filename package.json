@@ -41,17 +41,17 @@
 	],
 	"scripts": {
 		"build": "tsx ./scripts/build-plugin.ts && tsc -p tsconfig.plugin.json",
-		"clean": "shx rm -f pnpm-lock.yaml && git clean -fdX -e !.claude/",
+		"clean-deep": "shx rm -f pnpm-lock.yaml && git clean -fdX -e !.claude/",
 		"fix": "ksc fix",
 		"lint": "ksc lint",
-		"release": "bumpp --commit 'Release: %s' && pnpm build && NPM_AUTH_TOKEN=$(op read 'op://Personal/npm/token') pnpm publish",
+		"release": "bumpp --commit 'Release: %s' && pnpm build && pnpm publish --otp $(op item get npm --otp)",
 		"test": "vitest run"
 	},
 	"dependencies": {
 		"pretty-bytes": "^7.1.0"
 	},
 	"devDependencies": {
-		"@kitschpatrol/shared-config": "^7.6.2",
+		"@kitschpatrol/shared-config": "^8.12.0",
 		"@types/node": "^20.19.41",
 		"@vitest/browser-playwright": "^4.1.6",
 		"bumpp": "^11.1.0",
@@ -68,7 +68,7 @@
 	},
 	"packageManager": "pnpm@11.3.0",
 	"engines": {
-		"node": ">=20.19.0"
+		"node": "^20.19.0 || ^22.0.0 || ^24.0.0 || >=26.0.0"
 	},
 	"devEngines": {
 		"runtime": {
