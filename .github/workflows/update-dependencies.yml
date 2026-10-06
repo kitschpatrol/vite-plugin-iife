@@ -32,16 +32,10 @@ jobs:
 
       - name: Run ksc-update
         uses: kitschpatrol/github-action-skill-to-pr@710cc149d42470565427d1bd957f51bb6d53ef9e # v1.1.0
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
         with:
           skill: ksc-update
-          # Unreleased skill from shared-config main. Once it ships in
-          # @kitschpatrol/shared-config, drop skill-source and sync skills after the install.
-          skill-source: https://github.com/kitschpatrol/shared-config/tree/main/packages/shared-config/skills/ksc-update
           claude-code-oauth-token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           model: claude-opus-5-5
           effort: high
-          # Reaching the limit fails the run; num_turns in the Claude step log shows the headroom
           max-turns: 400

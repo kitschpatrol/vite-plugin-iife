@@ -44,6 +44,7 @@
 		"clean-deep": "shx rm -f pnpm-lock.yaml && git clean -fdX -e !.claude/",
 		"fix": "ksc fix",
 		"lint": "ksc lint",
+		"prepare": "skills experimental_sync -y -f",
 		"release": "bumpp --commit 'Release: %s' && pnpm build && pnpm publish --otp $(op item get npm --otp)",
 		"test": "vitest run"
 	},
@@ -51,13 +52,14 @@
 		"pretty-bytes": "^7.2.0"
 	},
 	"devDependencies": {
-		"@kitschpatrol/shared-config": "^8.12.0",
+		"@kitschpatrol/shared-config": "^8.12.1",
 		"@types/node": "^20.19.41",
 		"@vitest/browser-playwright": "^4.1.6",
 		"bumpp": "^12.3.0",
 		"esbuild": "^0.28.2",
 		"playwright": "^1.63.0",
 		"shx": "^0.4.0",
+		"skills": "^1.7.0",
 		"tsx": "^4.23.15",
 		"typescript": "^6.0.3",
 		"vite": "^7.3.3",
@@ -66,7 +68,7 @@
 	"peerDependencies": {
 		"vite": "^5.0.0 || ^6.0.0 || ^7.0.0"
 	},
-	"packageManager": "pnpm@11.3.0",
+	"packageManager": "pnpm@12.8.1",
 	"engines": {
 		"node": "^20.19.0 || ^22.0.0 || ^24.0.0 || >=26.0.0"
 	},
