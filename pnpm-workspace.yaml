@@ -1,6 +1,19 @@
 allowBuilds:
   esbuild: true
   unrs-resolver: true
+minimumReleaseAgeExclude:
+  - '@kitschpatrol/cspell-config@8.14.0'
+  - '@kitschpatrol/eslint-config@8.14.0'
+  - '@kitschpatrol/knip-config@8.14.0'
+  - '@kitschpatrol/mdat-config@8.14.0'
+  - '@kitschpatrol/prettier-config@8.14.0'
+  - '@kitschpatrol/remark-config@8.14.0'
+  - '@kitschpatrol/repo-config@8.14.0'
+  - '@kitschpatrol/shared-config@8.14.0'
+  - '@kitschpatrol/stylelint-config@8.14.0'
+  - '@kitschpatrol/typescript-config@8.14.0'
+  - mdat@3.6.6
+  - remark-mdat@3.1.2
 peerDependencyRules:
   allowedVersions:
     # Remove once the installed version declares ESLint 10 support.
@@ -9,6 +22,9 @@ peerDependencyRules:
     eslint-plugin-jsx-a11y@6>eslint: ^10.0.0
     # Vitest 5 types check against @types/node 20, kept to match the consumer Node.js floor
     'vitest@5>@types/node': '20'
+permissions:
+  '@kitschpatrol/shared-config':
+    skills: true
 publicHoistPattern:
   - '@kitschpatrol/repo-config'
   - '@kitschpatrol/typescript-config'
@@ -20,3 +36,7 @@ publicHoistPattern:
   - '*remark*'
   - '*stylelint*'
   - 'case-police'
+skills:
+  dirs:
+    - .agents/skills
+    - .claude/skills
