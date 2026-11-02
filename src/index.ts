@@ -2,7 +2,7 @@ import type { Logger, Plugin, ViteDevServer } from 'vite'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import prettyBytes from 'pretty-bytes'
-import { build } from 'vite'
+import { build, version as viteVersion } from 'vite'
 
 export type IifePluginOptions = {
 	minify?: 'auto' | boolean
@@ -151,17 +151,22 @@ async function buildIife(
 	}
 
 	const minifyResolved = options.minify === 'auto' ? isBuild : options.minify
+	const bundlerOptions = {
+		input: filePath,
+		output: {
+			format: 'iife' as const,
+			// Preserve strict execution across Rollup and Rolldown.
+			strict: true,
+		},
+		treeshake: true,
+	}
 
 	const result = await build({
 		build: {
 			minify: minifyResolved,
-			rollupOptions: {
-				input: filePath,
-				output: {
-					format: 'iife',
-				},
-				treeshake: true,
-			},
+			...(Number(viteVersion.split('.', 1)[0]) >= 8
+				? { rolldownOptions: bundlerOptions }
+				: { rollupOptions: bundlerOptions }),
 			target: 'es6',
 			write: false,
 		},

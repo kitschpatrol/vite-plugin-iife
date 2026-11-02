@@ -1,6 +1,6 @@
 import { playwright } from '@vitest/browser-playwright'
 import { defineConfig } from 'vitest/config'
-import iifePlugin from './src'
+import iifePlugin from './src/index.ts'
 
 export default defineConfig({
 	// Vitest 5 browser mode defaults to 'warn', which hides the plugin's verbose output

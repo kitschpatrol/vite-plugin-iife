@@ -35,6 +35,8 @@ console.log(inlineIifeSnippet)
 
 ## Installation
 
+Supports Vite 5, 6, 7, and 8.
+
 ### 1. Install the plugin package
 
 Assuming you're starting with a Vite project of some flavor:
