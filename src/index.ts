@@ -50,7 +50,12 @@ export default function iife(options?: IifePluginOptions): Plugin {
 					const relativeFilePath = filePath.startsWith('/') ? filePath.slice(1) : filePath
 					const absolutePath = path.resolve(root, relativeFilePath)
 
-					if (!absolutePath.startsWith(root)) {
+					const pathFromRoot = path.relative(root, absolutePath)
+					if (
+						pathFromRoot === '..' ||
+						pathFromRoot.startsWith(`..${path.sep}`) ||
+						path.isAbsolute(pathFromRoot)
+					) {
 						response.statusCode = 403
 						response.end('Access Denied')
 						return
